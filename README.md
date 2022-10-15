@@ -11,14 +11,15 @@ $ yarn install
 ## Running the app
 
 ```bash
-# development
-$ yarn start
+# development, starts with watch mode.
+yarn start:dev
 
-# watch mode
-$ yarn start:dev
+#production
+yarn build
+yarn start:prod
 
-# production mode
-$ yarn start:prod
+# Use this in a new terminal to start the microservice.
+yarn start:prod:service
 ```
 
 ## Test
