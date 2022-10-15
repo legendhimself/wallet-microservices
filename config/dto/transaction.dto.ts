@@ -23,6 +23,10 @@ export class TransactionArray {
 }
 
 export class TransactionArrayInput {
+  @ApiProperty({
+    type: [TransactionArray],
+    description: 'Array of transactions',
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => TransactionArray)

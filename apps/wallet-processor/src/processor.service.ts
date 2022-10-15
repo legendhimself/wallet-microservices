@@ -13,7 +13,9 @@ export class WalletService {
     private transactionModule: TransactionService,
     private userService: UserService,
   ) {
-    setInterval(this.retryTransactions, 1000 * 60 * 5);
+    setInterval(() => {
+      this.retryTransactions();
+    }, 1000 * 60 * 5);
   }
 
   async process(chunk: TransactionArrayOut[]) {

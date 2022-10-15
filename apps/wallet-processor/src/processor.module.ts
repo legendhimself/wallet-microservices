@@ -10,7 +10,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { WalletController } from './processor.controller';
 import { WalletService } from './processor.service';
+import { Logger } from '@nestjs/common';
 
+const logger = new Logger();
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,16 +28,16 @@ import { WalletService } from './processor.service';
           99: 'uninitialized',
         };
         connection.on('connected', () => {
-          console.log('DB connected');
+          logger.log('DB connected');
         });
         connection.on('disconnected', () => {
-          console.log('DB disconnected');
+          logger.log('DB disconnected');
         });
         connection.on('error', (error: any) => {
-          console.log('DB connection failed! Error: ', error);
+          logger.error('DB connection failed! Error: ' + (error.message ?? ''));
         });
 
-        console.log('DB', states[connection.readyState]);
+        logger.log(`DB State: ${states[connection.readyState]}`);
         return connection;
       },
     }),
