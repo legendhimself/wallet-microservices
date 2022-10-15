@@ -89,9 +89,7 @@ export const transactionInput = (
 ];
 
 describe('Chunkify', () => {
-  describe('chunkify', () => {
-    it('should return chunkified array of transactions', async () => {
-      expect(chunkify(transactionInput())).toStrictEqual(transactionResult());
-    });
+  it('should return chunkified array of transactions', async () => {
+    expect(chunkify(transactionInput())).toStrictEqual(transactionResult());
   });
 });
