@@ -10,7 +10,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @ApiResponse({
-    status: 200,
+    status: 201,
     description:
       'Created a customer and returns a access_token that is valid for 15 minutes and uid',
   })

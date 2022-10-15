@@ -18,7 +18,8 @@ export class ApiService {
     private config: ConfigService,
   ) {}
 
-  async isAuthenticated(token: string) {
+  async isAuthenticated(token: string | undefined) {
+    if (!token) return false;
     try {
       const { uid } = this.jwtService.verify(token.replace(/^Bearer\s+/, ''), {
         secret: this.config.get('JWT_SECRET'),

@@ -7,7 +7,7 @@ export const chunkify = (data: TransactionArray[]) => {
   const done: TransactionArray[] = [];
   for (let i = 0; i < data.length; i++) {
     let sum = 0;
-    const temp: any = [];
+    const temp = [];
     for (let j = i; j < data.length; j++) {
       if (sum + data[j].latency <= limit && !done.includes(data[j])) {
         sum += data[j].latency;
@@ -16,17 +16,15 @@ export const chunkify = (data: TransactionArray[]) => {
       }
     }
     if (temp.length > 0) {
-      const out = temp.reduce(
-        (pre: any, cur: any) => ({
+      const out = temp.reduce<TransactionArrayOut>(
+        (pre, cur) => ({
           totalValue: pre.totalValue + cur.value,
           timeLeft: pre.timeLeft - cur.latency,
           transactions: [...pre.transactions, cur],
         }),
         {
-          value: 0,
           totalValue: 0,
           timeLeft: 1000,
-          latency: 0,
           transactions: [],
         },
       );

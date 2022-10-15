@@ -39,8 +39,8 @@ const clients = ClientsModule.register([
         connection.on('disconnected', () => {
           logger.log('DB disconnected');
         });
-        connection.on('error', (error: any) => {
-          logger.log('DB connection failed! Error: ', error);
+        connection.on('error', (error) => {
+          logger.log(`DB connection failed! Error: ${error}`);
         });
 
         logger.log(`DB ${states[connection.readyState]}`);

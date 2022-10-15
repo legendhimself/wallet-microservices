@@ -4,6 +4,7 @@ import { Headers } from '@nestjs/common';
 import { EditUserDto } from '../../../../config/dto/user-patch.dto';
 import { ApiService } from '../api.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 @ApiTags('User')
 @Controller('customer')
 export class CustomerController {
@@ -13,7 +14,10 @@ export class CustomerController {
     status: 200,
     description: 'Returns customers name and if authorized ballance',
   })
-  async customer(@Param('id') id: string, @Headers() headers: any) {
+  async customer(
+    @Param('id') id: string,
+    @Headers() headers: Request['headers'],
+  ) {
     const { first_name, last_name, ballance } = await this.apiService.getUser(
       id,
       true,

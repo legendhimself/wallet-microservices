@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, AnyObject } from 'mongoose';
 
 import type { CreateUserDto } from '../dto/create-user.dto';
 import { IUser, UserSchemaName } from '../schemas/user.schema';
@@ -37,7 +37,7 @@ export class UserService {
     return this.userModel.findOne({ uid }).exec();
   }
 
-  async updateOneByUid(uid: string, data: any) {
+  async updateOneByUid(uid: string, data: AnyObject) {
     return this.userModel
       .findOneAndUpdate({ uid, deleted: false }, data, { new: true })
       .lean()

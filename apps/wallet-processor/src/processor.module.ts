@@ -33,7 +33,7 @@ const logger = new Logger();
         connection.on('disconnected', () => {
           logger.log('DB disconnected');
         });
-        connection.on('error', (error: any) => {
+        connection.on('error', (error) => {
           logger.error('DB connection failed! Error: ' + (error.message ?? ''));
         });
 
