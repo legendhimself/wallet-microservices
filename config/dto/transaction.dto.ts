@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsNumber, ValidateNested } from 'class-validator';
+import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
 
 export type TransactionArrayOut = {
   totalValue: number;
@@ -13,6 +13,9 @@ export class TransactionArray {
 
   @IsNumber()
   latency!: number;
+
+  @IsString()
+  customerId!: string;
 }
 
 export class TransactionArrayInput {
