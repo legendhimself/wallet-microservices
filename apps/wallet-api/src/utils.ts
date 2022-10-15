@@ -1,6 +1,7 @@
 import { TransactionArray, TransactionArrayOut } from 'config/dto';
 
 export const chunkify = (data: TransactionArray[]) => {
+  data = data.sort((a, b) => b.latency - a.latency);
   const limit = 1_000;
   const output: TransactionArrayOut[] = [];
   const done: TransactionArray[] = [];
