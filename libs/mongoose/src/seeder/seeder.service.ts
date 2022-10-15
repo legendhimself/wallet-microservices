@@ -23,7 +23,7 @@ export class SeederService {
   async seed() {
     const db = this.connection.db;
     const count = await db.collection('users').estimatedDocumentCount();
-    if (count < 10) {
+    if (count < 1000) {
       this.logger.log(`Seeding, Docs found:${count}`);
       await this.getData();
 
