@@ -16,10 +16,17 @@ export class TransactionController {
   @UseGuards(JwtGuard)
   @Post('transaction')
   transaction(@Body() body: TransactionArrayInput) {
-    const chunkified = this.apiService.chunkify(
-      body.data.sort((a, b) => b.latency - a.latency),
-    );
-    this.communicationClient.emit(TcpEvents.ProcessChunk, chunkified);
-    return { acknowledged: true };
+    try {
+      const chunkified = this.apiService.chunkify(
+        body.data.sort((a, b) => b.latency - a.latency),
+      );
+      this.communicationClient.emit(TcpEvents.ProcessChunk, chunkified);
+      return { acknowledged: true };
+    } catch (error) {
+      return {
+        acknowledged: false,
+        error: (error as Error).message ?? error,
+      };
+    }
   }
 }
