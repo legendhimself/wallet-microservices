@@ -25,11 +25,9 @@ export class TransactionController {
   @Post('transaction')
   transaction(@Body() body: TransactionArrayInput) {
     try {
-      const chunkified = this.apiService.chunkify(
-        body.data.sort((a, b) => b.latency - a.latency),
-      );
+      const chunkified = this.apiService.chunkify(body.data);
       this.communicationClient.emit(TcpEvents.ProcessChunk, chunkified);
-      return { acknowledged: true };
+      return { acknowledged: true, chunkified };
     } catch (error) {
       return {
         acknowledged: false,
