@@ -1,7 +1,6 @@
 # Not Yet Ready, Will Mail when ready.
 
-Todo:
-Write tests, Swagger, create Scheduler, Resolve all comment todo
+Todo: Swagger
 
 ## Installation
 
