@@ -1,11 +1,24 @@
 import { SeederModule, UserModule, UserService } from '@app/mongoose';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import { MongooseModule } from '@nestjs/mongoose';
+import { MicroServices } from 'config/tcp.enums';
 import { Connection } from 'mongoose';
-import { ApiModule } from './api.module';
+import { ApiService } from './api.service';
+import { AuthModule } from './auth/auth.module';
+import { CustomerController, TransactionController } from './controllers';
 const logger = new Logger('AppModule');
+
+const clients = ClientsModule.register([
+  {
+    name: MicroServices.Processor,
+    transport: Transport.TCP,
+  },
+]);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -34,10 +47,13 @@ const logger = new Logger('AppModule');
         return connection;
       },
     }),
+    clients,
     UserModule,
-    ApiModule,
     SeederModule,
+    AuthModule,
   ],
-  providers: [UserService],
+  controllers: [TransactionController, CustomerController],
+  providers: [UserService, ApiService, JwtService],
+  exports: [clients],
 })
 export class AppModule {}

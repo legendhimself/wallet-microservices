@@ -1,7 +1,7 @@
 # Not Yet Ready, Will Mail when ready.
 
 Todo:
-Write tests, Swagger, create Scheduler, Finish MicroService, Resolve all comment todo
+Write tests, Swagger, create Scheduler, Resolve all comment todo
 
 ## Installation
 

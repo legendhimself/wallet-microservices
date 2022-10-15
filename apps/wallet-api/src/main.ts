@@ -8,6 +8,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   const seederModule = app.get<SeederService>(SeederService);
   seederModule.seed();
-  await app.listen(3072);
+  await app.listen(3000);
 }
 bootstrap();

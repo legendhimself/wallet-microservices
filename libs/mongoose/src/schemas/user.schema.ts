@@ -1,6 +1,6 @@
 import { Schema, SchemaTypes, type InferSchemaType } from 'mongoose';
 
-export const SchemaName = 'User';
+export const UserSchemaName = 'User';
 
 export const UserSchema = new Schema(
   {

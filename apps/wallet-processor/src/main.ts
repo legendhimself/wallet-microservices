@@ -7,7 +7,6 @@ async function bootstrap() {
     AppModule,
     {
       transport: Transport.TCP,
-      options: { host: '0.0.0.0', port: 3082 },
     },
   );
   await app.listen().then(() => console.log('Microservice is listening'));

@@ -1,4 +1,7 @@
-export enum TcpCommands {
-  Hello = 'hello',
+export enum TcpEvents {
   ProcessChunk = 'processChunk',
+}
+
+export enum MicroServices {
+  Processor = 'PROCESSOR',
 }

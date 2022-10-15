@@ -1,4 +1,9 @@
-import { UserModule, UserService } from '@app/mongoose';
+import {
+  TransactionModule,
+  TransactionService,
+  UserModule,
+  UserService,
+} from '@app/mongoose';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -34,9 +39,10 @@ import { WalletService } from './processor.service';
         return connection;
       },
     }),
+    TransactionModule,
     UserModule,
   ],
   controllers: [WalletController],
-  providers: [UserService, WalletService],
+  providers: [TransactionService, WalletService, UserService],
 })
 export class AppModule {}

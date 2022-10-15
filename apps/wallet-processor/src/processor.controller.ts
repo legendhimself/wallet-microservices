@@ -1,21 +1,15 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
-// import { TransactionArrayOut } from '../wallet-api/controllers/dto';
+import { EventPattern } from '@nestjs/microservices';
+import { TcpEvents } from 'config/tcp.enums';
+import { TransactionArrayOut } from '../../../config/dto';
 import { WalletService } from './processor.service';
 
 @Controller()
 export class WalletController {
   constructor(private readonly service: WalletService) {}
 
-  @MessagePattern({ cmd: 'hello' })
-  hello(data: string): string {
-    console.log(data);
-    return `${process.pid} said Hi!`;
+  @EventPattern(TcpEvents.ProcessChunk)
+  process(chunk: TransactionArrayOut[]) {
+    return this.service.process(chunk);
   }
-
-  //   @MessagePattern({ cmd: 'processChunk' })
-  //   process(chunk: any) {
-  //     console.log('processChunk', chunk);
-  //     return this.service.process(chunk);
-  //   }
 }

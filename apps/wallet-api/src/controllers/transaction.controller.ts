@@ -1,5 +1,6 @@
 import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { MicroServices, TcpEvents } from 'config/tcp.enums';
 import { TransactionArrayInput } from '../../../../config/dto';
 import { ApiService } from '../api.service';
 import { JwtGuard } from '../auth/guard';
@@ -8,21 +9,17 @@ import { JwtGuard } from '../auth/guard';
 export class TransactionController {
   constructor(
     private readonly apiService: ApiService,
-    @Inject('PROCESSOR') private readonly communicationClient: ClientProxy,
+    @Inject(MicroServices.Processor)
+    private readonly communicationClient: ClientProxy,
   ) {}
 
   @UseGuards(JwtGuard)
   @Post('transaction')
   transaction(@Body() body: TransactionArrayInput) {
-    this.communicationClient.send(
-      { cmd: 'hello' },
-      `${process.pid} WALLET API said Hi!`,
+    const chunkified = this.apiService.chunkify(
+      body.data.sort((a, b) => b.latency - a.latency),
     );
-
-    // const chunkified = this.apiService.chunkify(
-    //   body.data.sort((a, b) => b.latency - a.latency),
-    // );
-    // return this.communicationClient.send('processChunk', chunkified);
-    return body;
+    this.communicationClient.emit(TcpEvents.ProcessChunk, chunkified);
+    return { acknowledged: true };
   }
 }

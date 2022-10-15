@@ -3,12 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import type { CreateUserDto } from '../dto/create-user.dto';
-import { IUser, SchemaName } from '../schemas/user.schema';
+import { IUser, UserSchemaName } from '../schemas/user.schema';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(SchemaName)
+    @InjectModel(UserSchemaName)
     private userModel: Model<IUser>,
   ) {}
 
