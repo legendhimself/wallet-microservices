@@ -1,8 +1,8 @@
-import { Controller, Get, Delete, Patch, Body, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 
-import { ApiService } from '../api.service';
-import { EditUserDto } from './dto/user-patch.dto';
 import { Headers } from '@nestjs/common';
+import { EditUserDto } from '../../../../config/dto/user-patch.dto';
+import { ApiService } from '../api.service';
 
 @Controller('customer')
 export class CustomerController {

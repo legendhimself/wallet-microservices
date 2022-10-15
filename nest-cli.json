@@ -1,5 +1,40 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "apps/wallet-api/src",
+  "monorepo": true,
+  "root": "apps/wallet-api",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/wallet-api/tsconfig.app.json"
+  },
+  "projects": {
+    "wallet-api": {
+      "type": "application",
+      "root": "apps/wallet-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/wallet-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/wallet-api/tsconfig.app.json"
+      }
+    },
+    "wallet-processor": {
+      "type": "application",
+      "root": "apps/wallet-processor",
+      "entryFile": "main",
+      "sourceRoot": "apps/wallet-processor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/wallet-processor/tsconfig.app.json"
+      }
+    },
+    "mongodb": {
+      "type": "library",
+      "root": "libs/mongoose",
+      "entryFile": "index",
+      "sourceRoot": "libs/mongoose/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mongoose/tsconfig.lib.json"
+      }
+    }
+  }
 }

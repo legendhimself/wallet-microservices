@@ -9,8 +9,7 @@ import * as argon from 'argon2';
 import { v4 } from 'uuid';
 import { AuthDto } from './dto/auth.dto';
 
-import { CreateUserDto } from '../../mongoose/dto/create-user.dto';
-import { UserService } from '../../mongoose/user/user.service';
+import { CreateUserDto, UserService } from '@app/mongoose';
 
 @Injectable()
 export class AuthService {

@@ -1,5 +1,5 @@
+import { CreateUserDto } from '@app/mongoose';
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { CreateUserDto } from '../../mongoose/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 

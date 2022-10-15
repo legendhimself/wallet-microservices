@@ -1,11 +1,10 @@
+import { UserModule, UserService } from '@app/mongoose';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
-import { SeederModule } from './mongoose/seeder/seeder.module';
-import { UserModule } from './mongoose/user/user.module';
-import { UserService } from './mongoose/user/user.service';
-import { ApiModule } from './wallet-api/api.module';
+import { WalletController } from './processor.controller';
+import { WalletService } from './processor.service';
 
 @Module({
   imports: [
@@ -36,9 +35,8 @@ import { ApiModule } from './wallet-api/api.module';
       },
     }),
     UserModule,
-    ApiModule,
-    SeederModule,
   ],
-  providers: [UserService],
+  controllers: [WalletController],
+  providers: [UserService, WalletService],
 })
 export class AppModule {}

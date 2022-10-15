@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import { UserService } from '../mongoose/user/user.service';
+import { UserService } from '@app/mongoose';
 import {
   EditUserDto,
   TransactionArray,
   TransactionArrayOut,
-} from './controllers/dto';
+} from '../../../config/dto';
 
 @Injectable()
 export class ApiService {

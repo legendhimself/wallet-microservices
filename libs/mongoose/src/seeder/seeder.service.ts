@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { stat } from 'fs/promises';
 import { Connection } from 'mongoose';
@@ -14,6 +14,7 @@ const runCommand = promisify(exec);
 
 @Injectable()
 export class SeederService {
+  logger = new Logger('SeederService');
   constructor(
     @InjectConnection() private readonly connection: Connection,
     private config: ConfigService,
@@ -23,7 +24,7 @@ export class SeederService {
     const db = this.connection.db;
     const count = await db.collection('users').estimatedDocumentCount();
     if (count < 10) {
-      console.log('Seeding...', count);
+      this.logger.log(`Seeding, Docs found:${count}`);
       await this.getData();
 
       const { stderr, stdout } = await runCommand(
@@ -31,10 +32,10 @@ export class SeederService {
           'DB_URI',
         )} --collection users --drop --jsonArray --batchSize 100 --file db-snapshot.json`,
       );
-      console.log('Seeding done.');
-      if (stderr) console.error(stderr);
-      else console.log(stdout);
-    } else console.log('Seeding already done.');
+      this.logger.log('Seeding done.');
+      if (stderr) this.logger.error(stderr);
+      else this.logger.log(stdout);
+    } else this.logger.log('Seeding already done.');
   }
 
   async getData() {
@@ -45,7 +46,7 @@ export class SeederService {
         }));
         // fetch from bucket once
         if (fileStat.size > 10) return resolve(true);
-        console.log('Fetching data from bucket.');
+        this.logger.log('Fetching data from bucket.');
         const bucket = new S3Client({
           region: 'eu-central-1',
           signer: { sign: async (request) => request },
@@ -73,7 +74,7 @@ export class SeederService {
           finalSt.write(lastEle.trim().replace(/,$/, ''));
           finalSt.write('\n]');
           finalSt.end();
-          console.log('Fetching done.');
+          this.logger.log('Fetching done.');
           resolve(true);
         });
 

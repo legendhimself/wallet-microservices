@@ -17,6 +17,10 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": false,
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@app/mongoose": ["libs/mongoose/src"],
+      "@app/mongoose/*": ["libs/mongoose/src/*"]
+    }
   }
 }
