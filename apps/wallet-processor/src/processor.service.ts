@@ -13,12 +13,11 @@ export class WalletService {
     private transactionModule: TransactionService,
     private userService: UserService,
   ) {
-    this.retryTransactions();
+    setInterval(this.retryTransactions, 1000 * 60 * 5);
   }
 
   async process(chunk: TransactionArrayOut[]) {
     const transactionOperations = [];
-    const userOperations = [];
     for (let i = 0; i < chunk.length; i++) {
       const { transactions } = chunk[i];
       for (let j = 0; j < transactions.length; j++) {
@@ -35,11 +34,8 @@ export class WalletService {
               retryAfter: Date.now() + 1000 * 60 * 60,
             });
           } else {
-            userOperations.push({
-              updateOne: {
-                filter: { uid: customerId, deleted: false },
-                update: { $inc: { 'credit_card.ballance': -value } },
-              },
+            await this.userService.updateOneByUid(customerId, {
+              $inc: { 'credit_card.ballance': -value },
             });
             transactionOperations.push({
               insertOne: { document: { ...transactions[j], success: true } },
@@ -49,14 +45,12 @@ export class WalletService {
       }
     }
     await this.transactionModule.bulkWrite(transactionOperations);
-    await this.userService.bulkWrite(userOperations);
 
     return true;
   }
 
   async retryTransactions() {
     const transactionOperations = [];
-    const userOperations = [];
     for (let i = 0; i < this.unsuccessfulTransactions.length; i++) {
       const { transaction, retryAfter } = this.unsuccessfulTransactions[i];
       if (retryAfter <= Date.now()) {
@@ -66,18 +60,19 @@ export class WalletService {
           const difference = user.credit_card.ballance - value;
           if (difference < 0) {
             transactionOperations.push({
-              insertOne: { document: { ...transaction, success: false } },
+              insertOne: {
+                document: { ...transaction, success: false, retried: true },
+              },
             });
             this.unsuccessfulTransactions.splice(i, 1);
           } else {
-            userOperations.push({
-              updateOne: {
-                filter: { uid: customerId, deleted: false },
-                update: { $inc: { 'credit_card.ballance': -value } },
-              },
+            await this.userService.updateOneByUid(customerId, {
+              $inc: { 'credit_card.ballance': -value },
             });
             transactionOperations.push({
-              insertOne: { document: { ...transaction, success: true } },
+              insertOne: {
+                document: { ...transaction, success: true, retried: true },
+              },
             });
             this.unsuccessfulTransactions.splice(i, 1);
           }
@@ -85,7 +80,5 @@ export class WalletService {
       }
     }
     await this.transactionModule.bulkWrite(transactionOperations);
-    await this.userService.bulkWrite(userOperations);
-    this.retryTransactions();
   }
 }

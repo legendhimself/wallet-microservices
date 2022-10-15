@@ -20,6 +20,11 @@ export const TransactionSchema = new Schema(
       required: true,
       type: SchemaTypes.Boolean,
     },
+
+    retried: {
+      type: SchemaTypes.Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );
