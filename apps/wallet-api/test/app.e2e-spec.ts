@@ -2,6 +2,7 @@ import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import { INestApplication } from '@nestjs/common';
+import { transactionInput, transactionResult } from '../src/util.spec';
 
 describe('Wallet Api', () => {
   const testData = {
@@ -79,42 +80,11 @@ describe('Wallet Api', () => {
     return request(app.getHttpServer())
       .post('/transaction')
       .send({
-        data: [
-          {
-            value: 110,
-            latency: 600,
-            customerId: uid,
-          },
-          {
-            value: 70,
-            latency: 250,
-            customerId: uid,
-          },
-          {
-            value: 200,
-            latency: 850,
-            customerId: uid,
-          },
-          {
-            value: 120,
-            latency: 1000,
-            customerId: uid,
-          },
-          {
-            value: 20,
-            latency: 50,
-            customerId: uid,
-          },
-          {
-            value: 40,
-            latency: 100,
-            customerId: uid,
-          },
-        ],
+        data: transactionInput(uid),
       })
       .auth(accessToken, { type: 'bearer' })
       .expect(200)
-      .expect({ acknowledged: true });
+      .expect({ acknowledged: true, chunkified: transactionResult(uid) });
   });
 
   it(`/DELETE customer:id`, () => {
