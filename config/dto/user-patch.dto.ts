@@ -23,7 +23,7 @@ export class EditUserDto {
   last_name!: string;
 
   @ApiProperty({
-    type: [CreditCard],
+    type: CreditCard,
   })
   @IsObject()
   @Type(() => CreditCard)
