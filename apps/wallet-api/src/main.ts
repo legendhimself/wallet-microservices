@@ -16,7 +16,6 @@ async function bootstrap() {
     .setTitle('Wallet Api')
     .setDescription('Wallet api for assignment')
     .setVersion('1.0')
-    .addTag('wallet')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

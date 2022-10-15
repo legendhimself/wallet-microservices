@@ -11,7 +11,9 @@ import { MicroServices, TcpEvents } from '../../../../config/tcp.enums';
 import { TransactionArrayInput } from '../../../../config/dto';
 import { ApiService } from '../api.service';
 import { JwtGuard } from '../auth/guard';
+import { ApiResponse, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Transactions')
 @Controller()
 export class TransactionController {
   constructor(
@@ -20,6 +22,12 @@ export class TransactionController {
     private readonly communicationClient: ClientProxy,
   ) {}
 
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description:
+      'Processes a pile of transactions. If dispatched for processing it returns acknowledge as true else false and chunkified array sorted by highest value.',
+  })
   @UseGuards(JwtGuard)
   @HttpCode(200)
   @Post('transaction')
