@@ -4,6 +4,10 @@
 $ yarn install
 ```
 
+## Setup Env
+
+Create a new file called `.env`. Refer `example.env` for the values.
+
 ## Running the app
 
 ```bash
