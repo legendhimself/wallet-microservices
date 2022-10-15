@@ -9,16 +9,15 @@ export class CustomerController {
   constructor(private readonly apiService: ApiService) {}
   @Get(':id')
   async customer(@Param('id') id: string, @Headers() headers: any) {
-    const { first_name, last_name, balance } = await this.apiService.getUser(
+    const { first_name, last_name, ballance } = await this.apiService.getUser(
       id,
       true,
     );
-
     if (await this.apiService.isAuthenticated(headers.authorization)) {
       return {
         first_name,
         last_name,
-        balance,
+        ballance,
       };
     }
     return {

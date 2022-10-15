@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
-import { TcpEvents } from 'config/tcp.enums';
+import { TcpEvents } from '../../../config/tcp.enums';
 import { TransactionArrayOut } from '../../../config/dto';
 import { WalletService } from './processor.service';
 

@@ -23,7 +23,7 @@ export class ApiService {
         secret: this.config.get('JWT_SECRET'),
       });
       const exists = await this.userModule.userExists(uid);
-      return !!uid && exists;
+      return !!(uid && exists);
     } catch (e) {
       return false;
     }
@@ -35,7 +35,7 @@ export class ApiService {
       ? {
           first_name: resp?.first_name,
           last_name: resp?.last_name,
-          balance: resp?.credit_card?.ballance,
+          ballance: resp?.credit_card?.ballance,
         }
       : {};
   }
@@ -52,7 +52,11 @@ export class ApiService {
     };
     const a = await this.userModule.updateOneByUid(id, update);
     if (!a) return { message: 'User not found' };
-    return a;
+    return {
+      first_name: a.first_name,
+      last_name: a.last_name,
+      ballance: a.credit_card?.ballance,
+    };
   }
 
   chunkify(data: TransactionArray[]): TransactionArrayOut[] {

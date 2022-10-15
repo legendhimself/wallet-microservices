@@ -1,6 +1,13 @@
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Inject,
+  Post,
+  UseGuards,
+  HttpCode,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { MicroServices, TcpEvents } from 'config/tcp.enums';
+import { MicroServices, TcpEvents } from '../../../../config/tcp.enums';
 import { TransactionArrayInput } from '../../../../config/dto';
 import { ApiService } from '../api.service';
 import { JwtGuard } from '../auth/guard';
@@ -14,6 +21,7 @@ export class TransactionController {
   ) {}
 
   @UseGuards(JwtGuard)
+  @HttpCode(200)
   @Post('transaction')
   transaction(@Body() body: TransactionArrayInput) {
     try {

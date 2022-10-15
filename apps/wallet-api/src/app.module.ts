@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import { MongooseModule } from '@nestjs/mongoose';
-import { MicroServices } from 'config/tcp.enums';
+import { MicroServices } from '../../../config/tcp.enums';
 import { Connection } from 'mongoose';
 import { ApiService } from './api.service';
 import { AuthModule } from './auth/auth.module';
