@@ -1,7 +1,3 @@
-# Not Yet Ready, Will Mail when ready.
-
-Todo: Swagger
-
 ## Installation
 
 ```bash
@@ -34,3 +30,7 @@ $ yarn test:e2e
 # test coverage
 $ yarn test:cov
 ```
+
+## Documentation
+
+http://localhost:3000/api

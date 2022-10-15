@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type TransactionArrayOut = {
   totalValue: number;
@@ -9,11 +10,14 @@ export type TransactionArrayOut = {
 
 export class TransactionArray {
   @IsNumber()
+  @ApiProperty()
   value!: number;
 
+  @ApiProperty()
   @IsNumber()
   latency!: number;
 
+  @ApiProperty()
   @IsString()
   customerId!: string;
 }
